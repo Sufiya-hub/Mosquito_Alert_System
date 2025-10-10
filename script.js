@@ -18,9 +18,14 @@ const displayUid = document.getElementById('display-uid');
 const CUSTOM_MODAL = document.getElementById('customModal');
 const appContainer = document.getElementById('appContainer');
 
-function showCustomModal(title, message) {
+function showCustomModal(title, message, isHtml = false) {
   document.getElementById('modalTitle').innerHTML = title;
-  document.getElementById('modalMessage').textContent = message;
+  const modalMessage = document.getElementById('modalMessage');
+  if (isHtml) {
+    modalMessage.innerHTML = message;
+  } else {
+    modalMessage.textContent = message;
+  }
   CUSTOM_MODAL.classList.remove('hidden');
   CUSTOM_MODAL.classList.add('flex');
 }
@@ -846,7 +851,8 @@ async function updateStatus(reportId, newStatus) {
                 </svg>Report ${reportId.substring(
                   0,
                   8
-                )}... status updated to "${newStatus}"!`
+                )}... status updated to "${newStatus}"!`,
+      true
     );
   } catch (error) {
     console.error('Error updating status:', error);
@@ -858,7 +864,8 @@ window.updateStatus = updateStatus;
 function viewReportImage(base64Image) {
   showCustomModal(
     'Report Image Proof',
-    `<img src="${base64Image}" alt="Reported Site Image" class="w-full h-auto rounded-xl mb-4 shadow-lg">`
+    `<img src="${base64Image}" alt="Reported Site Image" class="w-full h-auto rounded-xl mb-4 shadow-lg">`,
+    true
   );
 }
 window.viewReportImage = viewReportImage;
